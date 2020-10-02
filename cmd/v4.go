@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
+Copyright © 2020 Samit samitghimire@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-//generator interface to interact with uuid generator
+//GeneratorV4 interface to interact with uuid generator
 type GeneratorV4 interface {
 	V4() string
 }
