@@ -33,10 +33,10 @@ var rootCmd = &cobra.Command{
 	Short: "Command line interface to generate uuid",
 	Long: `It provides command line interface to generate uuid or list of uuids.
 
-	Supported Version: v3 and v4
+	Supported Version: v4
 	`,
 
-	Run: func(cmd *cobra.Command, args []string) { fmt.Println("Welcome to UUID CLI  --@samit22`") },
+	Run: func(cmd *cobra.Command, args []string) { fmt.Println("Welcome to UUID CLI  BY: github.com/samit22`") },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -49,6 +49,8 @@ func Execute() {
 }
 
 func init() {
+
+	rootCmd.AddCommand(v4Cmd)
 
 	cobra.OnInitialize(initConfig)
 
