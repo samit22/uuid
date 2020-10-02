@@ -20,7 +20,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"uuid/generator"
+
+	"github.com/samit22/uuid/generator"
 
 	"github.com/spf13/cobra"
 )

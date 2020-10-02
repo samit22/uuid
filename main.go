@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "uuid/cmd"
+import "github.com/samit22/uuid/cmd"
 
 func main() {
 	cmd.Execute()
