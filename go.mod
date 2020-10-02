@@ -1,4 +1,4 @@
-module uuid
+module github.com/samit22/uuid
 
 go 1.13
 
