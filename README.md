@@ -6,9 +6,9 @@ Required Go version 1.13+
 ### Installation
 Run the following command
 ```bash
- git clone git@github.com:samit22/uuid.git
+ go get github.com/samit22/uuid
 
- go install uuid
+ go install github.com/samit22/uuid
 
  uuid
  ```
