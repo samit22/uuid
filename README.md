@@ -15,4 +15,5 @@ Run the following command
 
 ### Commands:
  - uuid v4
+ - uuid check
 

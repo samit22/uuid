@@ -12,7 +12,11 @@ var check = &cobra.Command{
 	Use:   "check",
 	Short: "Checks whether each of the provided arguments is a valid UUID",
 	Long: `Checks whether each of the provided arguments is a valid UUID,
-while using regular expression pattern matching.`,
+while using regular expression pattern matching.
+you can pass one or more UUIDs to be checked:
+
+example usage: 
+uuid check d50cddd9-71f3-47f0-a407-1bf7581874fc`,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		for _, arg := range args {
