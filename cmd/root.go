@@ -52,6 +52,7 @@ func init() {
 
 	rootCmd.AddCommand(v4Cmd)
 	rootCmd.AddCommand(empty)
+	rootCmd.AddCommand(check)
 
 	cobra.OnInitialize(initConfig)
 
