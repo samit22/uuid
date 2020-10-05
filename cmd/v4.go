@@ -47,20 +47,6 @@ Example: uuid v4 10
 	},
 }
 
-func init() {
-	rootCmd.AddCommand(v4Cmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// v4Cmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// v4Cmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
 func generateUUIDV4(args []string, g GeneratorV4) (uuids []string, err error) {
 	var (
 		num = 1
