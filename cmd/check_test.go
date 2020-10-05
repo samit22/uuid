@@ -13,7 +13,7 @@ func TestCheck(t *testing.T) {
 		}
 	})
 
-	t.Run("collection of any size", func(t *testing.T) {
+	t.Run("should return false", func(t *testing.T) {
 		input := "c93a-cee4-4182-af57-438f2fb6" // not a valid UUID
 		got := Check(input)
 		expect := false
