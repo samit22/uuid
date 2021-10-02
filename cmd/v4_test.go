@@ -1,78 +1,95 @@
 package cmd
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+
+	"github.com/samit22/uuid/generator"
+)
 
 type mockUUID struct {
 }
 
-func (m mockUUID) V4() string {
-	return "0000000-0000-0000-0000-000000000000"
+func (m mockUUID) V4() (string, error) {
+	return "0000000-0000-0000-0000-000000000000", nil
+}
+
+func TestParseArgs(t *testing.T) {
+	tests := map[string]struct {
+		args        []string
+		expectedNum int
+		expectErr   bool
+	}{
+		"no arguments": {
+			args:        nil,
+			expectedNum: 1,
+			expectErr:   false,
+		},
+		"one argument 3": {
+			args:        []string{"3"},
+			expectedNum: 3,
+			expectErr:   false,
+		},
+		"one argument 0": {
+			args:        []string{"0"},
+			expectedNum: 0,
+			expectErr:   true,
+		},
+		"non-integer argument": {
+			args:        []string{"foobar"},
+			expectedNum: 0,
+			expectErr:   true,
+		},
+		"superfluous arguments": {
+			args:        []string{"23", "foo", "bar", "baz"},
+			expectedNum: 23,
+			expectErr:   false,
+		},
+	}
+
+	for testName, testData := range tests {
+		t.Run(testName, func(t *testing.T) {
+			n, err := parseArgs(testData.args)
+			if testData.expectErr != (err != nil) {
+				t.Fatalf("Expected error doesn't match: expected error = %t, error returned = %v", testData.expectErr, err)
+			}
+			if testData.expectedNum != n {
+				t.Fatalf("Expected number doesn't match: expected %d, got %d", testData.expectedNum, n)
+			}
+		})
+	}
 }
 
 func TestGenerateUUIDv4(t *testing.T) {
-
-	t.Log("When argument contains non integer field")
-	{
-		arg := []string{"abc"}
-		m := mockUUID{}
-		t.Run("Returns non integer error", func(t *testing.T) {
-
-			_, err := generateUUIDV4(arg, m)
-			if err == nil {
-				t.Errorf("expected error but didn't receive one")
-			}
-			expErrMsg := "Argument must a integer, please enter number between 1 to 100"
-			if err.Error() != expErrMsg {
-				t.Errorf("Expected %s got %s", expErrMsg, err.Error())
-			}
-		})
+	tests := map[string]struct {
+		n             int
+		gen           generator.GeneratorV4
+		expectedUUIDs []string
+	}{
+		"Single UUID": {
+			n:             1,
+			gen:           mockUUID{},
+			expectedUUIDs: []string{"0000000-0000-0000-0000-000000000000"},
+		},
+		"Multiple UUIDs": {
+			n:   3,
+			gen: mockUUID{},
+			expectedUUIDs: []string{
+				"0000000-0000-0000-0000-000000000000",
+				"0000000-0000-0000-0000-000000000000",
+				"0000000-0000-0000-0000-000000000000",
+			},
+		},
 	}
 
-	t.Log("When argument is not between 1 to 100")
-	{
-		arg := []string{"101"}
-		m := mockUUID{}
-		t.Run("Returns range error", func(t *testing.T) {
-
-			_, err := generateUUIDV4(arg, m)
-			if err == nil {
-				t.Errorf("expected error but didn't receive one")
-			}
-			expErrMsg := "Please enter number between 1 to 100"
-			if err.Error() != expErrMsg {
-				t.Errorf("Expected %s got %s", expErrMsg, err.Error())
-			}
-		})
-	}
-
-	t.Log("When argument is not given")
-	{
-		arg := []string{}
-		m := mockUUID{}
-		t.Run("Returns one uuid", func(t *testing.T) {
-
-			uuids, err := generateUUIDV4(arg, m)
+	for testName, testData := range tests {
+		t.Run(testName, func(t *testing.T) {
+			uuids, err := generateUUIDV4(testData.n, testData.gen)
 			if err != nil {
-				t.Errorf("unexpected error occured %+v", err)
+				t.Fatalf("generateUUIDV4 returned an error where none was expected: %v", err)
 			}
-			if len(uuids) != 1 {
-				t.Errorf("Expected 1 uuid got %d", len(uuids))
-			}
-		})
-	}
-
-	t.Log("When argument is between 1 to 100")
-	{
-		arg := []string{"50"}
-		m := mockUUID{}
-		t.Run("Returns one uuid", func(t *testing.T) {
-
-			uuids, err := generateUUIDV4(arg, m)
-			if err != nil {
-				t.Errorf("unexpected error occured %+v", err)
-			}
-			if len(uuids) != 50 {
-				t.Errorf("Expected 50 uuids got %d", len(uuids))
+			if !reflect.DeepEqual(testData.expectedUUIDs, uuids) {
+				t.Fatalf("expected %v UUIDs to be returned, but generateUUIDV4 returned %v instead", testData.expectedUUIDs, uuids)
 			}
 		})
 	}
