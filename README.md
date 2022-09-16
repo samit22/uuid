@@ -2,18 +2,22 @@
 
 > Command line tool (CLI) to generate UUID or list of UUIDs.
 
-> Required Go version 1.13+
+> Required Go version 1.17+
 
 ### Installation
 Run the following command
 ```bash
- go get github.com/samit22/uuid
-
- go install github.com/samit22/uuid
+ go install github.com/samit22/uuid@latest
 
  uuid
  ```
-
+If you get error something like
+```
+# golang.org/x/sys/unix
+../../../.gvm/pkgsets/go1.19/global/pkg/mod/golang.org/x/sys@v0.0.0-20190624142023-c5567b49c5d0/unix/zsyscall_darwin_amd64.go:28:3: //go:linkname must refer to declared function or variable
+```
+Run: `go get -u golang.org/x/sys`
+This is due to the older version of sys
 ### Available Commands:
  - uuid
     - Default command
