@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 Samit <samitghimire@gmail.com>
+Copyright © 2022 Samit <samitghimire@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,7 +25,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var (
+	cfgFile string
+	Version string
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -53,7 +56,8 @@ var rootCmd = &cobra.Command{
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
+func Execute(version string) {
+	Version = version
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -65,6 +69,7 @@ func init() {
 	rootCmd.AddCommand(v4Cmd)
 	rootCmd.AddCommand(empty)
 	rootCmd.AddCommand(check)
+	rootCmd.AddCommand(version)
 
 	cobra.OnInitialize(initConfig)
 
